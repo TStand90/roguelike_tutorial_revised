@@ -36,7 +36,7 @@ def main():
         fullscreen = action.get('fullscreen')
 
         if move:
-            dx, dy = action.get('move')
+            dx, dy = move
             player_x += dx
             player_y += dy
 
