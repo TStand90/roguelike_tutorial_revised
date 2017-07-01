@@ -1,4 +1,4 @@
-import libtcodpy as libtcod
+from random import randint
 
 from map_objects.rectangle import Rect
 from map_objects.tile import Tile
@@ -21,11 +21,11 @@ class GameMap:
 
         for r in range(max_rooms):
             # random width and height
-            w = libtcod.random_get_int(0, room_min_size, room_max_size)
-            h = libtcod.random_get_int(0, room_min_size, room_max_size)
+            w = randint(room_min_size, room_max_size)
+            h = randint(room_min_size, room_max_size)
             # random position without going out of the boundaries of the map
-            x = libtcod.random_get_int(0, 0, map_width - w - 1)
-            y = libtcod.random_get_int(0, 0, map_height - h - 1)
+            x = randint(0, map_width - w - 1)
+            y = randint(0, map_height - h - 1)
 
             # "Rect" class makes rectangles easier to work with
             new_room = Rect(x, y, w, h)
@@ -54,8 +54,8 @@ class GameMap:
                     # center coordinates of previous room
                     (prev_x, prev_y) = rooms[num_rooms - 1].center()
 
-                    # draw a coin (random number that is either 0 or 1)
-                    if libtcod.random_get_int(0, 0, 1) == 1:
+                    # flip a coin (random number that is either 0 or 1)
+                    if randint(0, 1) == 1:
                         # first move horizontally, then vertically
                         self.create_h_tunnel(prev_x, new_x, prev_y)
                         self.create_v_tunnel(prev_y, new_y, new_x)
@@ -64,7 +64,7 @@ class GameMap:
                         self.create_v_tunnel(prev_y, new_y, prev_x)
                         self.create_h_tunnel(prev_x, new_x, new_y)
 
-                # finally, append the new room to the list
+                        # finally, append the new room to the list
                 rooms.append(new_room)
                 num_rooms += 1
 
