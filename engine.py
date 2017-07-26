@@ -168,7 +168,6 @@ def main():
             if game_state in (GameStates.SHOW_INVENTORY, GameStates.DROP_INVENTORY):
                 game_state = previous_game_state
             elif game_state == GameStates.TARGETING:
-                game_state = previous_game_state
                 player_turn_results.append({'targeting_cancelled': True})
             else:
                 return True
@@ -183,6 +182,7 @@ def main():
             item_consumed = player_turn_result.get('consumed')
             item_dropped = player_turn_result.get('item_dropped')
             targeting = player_turn_result.get('targeting')
+            targeting_cancelled = player_turn_result.get('targeting_cancelled')
 
             if message:
                 message_log.add_message(message)
@@ -215,6 +215,11 @@ def main():
                 targeting_item = targeting
 
                 message_log.add_message(targeting_item.item.targeting_message)
+
+            if targeting_cancelled:
+                game_state = previous_game_state
+
+                message_log.add_message(Message('Targeting cancelled'))
 
         if game_state == GameStates.ENEMY_TURN:
             for entity in entities:
